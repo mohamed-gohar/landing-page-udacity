@@ -138,9 +138,9 @@ function hideHeader() {
 // scroll to top
 function scrollTopToggle() {
   if (pageYOffset >= 250) {
-    scrollToTop.style.cssText = "opacity: 1;visibility: visible;";
+    scrollToTop.style = "opacity: 1;visibility: visible;";
   } else {
-    scrollToTop.style.cssText = "opacity: 0;visibility: hiden;";
+    scrollToTop.style = null;
   }
 }
 
