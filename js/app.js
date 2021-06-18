@@ -6313,7 +6313,7 @@
 	var html = html$2;
 	var createElement = documentCreateElement$1;
 	var IS_IOS$1 = engineIsIos;
-	var location$1 = global$j.location;
+	var location = global$j.location;
 	var set$2 = global$j.setImmediate;
 	var clear = global$j.clearImmediate;
 	var process$3 = global$j.process;
@@ -6345,7 +6345,7 @@
 
 	var post = function (id) {
 	  // old engines have not location.origin
-	  global$j.postMessage(id + '', location$1.protocol + '//' + location$1.host);
+	  global$j.postMessage(id + '', location.protocol + '//' + location.host);
 	}; // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
 
 
@@ -6387,7 +6387,7 @@
 	    channel.port1.onmessage = listener;
 	    defer = bind$5(port.postMessage, port, 1); // Browsers with postMessage, skip WebWorkers
 	    // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
-	  } else if (global$j.addEventListener && typeof postMessage == 'function' && !global$j.importScripts && !fails$e(post) && location$1.protocol !== 'file:') {
+	  } else if (global$j.addEventListener && typeof postMessage == 'function' && !global$j.importScripts && !fails$e(post) && location.protocol !== 'file:') {
 	    defer = post;
 	    global$j.addEventListener('message', listener, false); // IE8-
 	  } else if (ONREADYSTATECHANGE in createElement('script')) {
@@ -12297,8 +12297,7 @@
 
 	      removeActive(menuLink);
 	      addActive(element('.menu__link[href="#' + targetElement.id + '"]')); //change location hash
-
-	      location.hash = ".".concat(targetElement.id);
+	      // location.hash = `.${targetElement.id}`;
 	    }
 	  });
 	} // Scroll to anchor ID using scrollTO event
