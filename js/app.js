@@ -12297,8 +12297,7 @@
 
 	      removeActive(menuLink);
 	      addActive(element('.menu__link[href="#' + targetElement.id + '"]')); //change location hash
-
-	      location.hash = "_".concat(targetElement.id);
+	      // location.hash = `.${targetElement.id}`;
 	    }
 	  });
 	} // Scroll to anchor ID using scrollTO event
@@ -12311,6 +12310,8 @@
 	    var hash = e.target.hash; // console.log(hash);
 
 	    var offsetTop = element(hash).offsetTop; // console.log(offsetTop);
+
+	    location.hash = hash.toUpperCase();
 
 	    if (window.MSInputMethodContext && document.documentMode || window.navigator.userAgent.indexOf("Edge") > -1) {
 	      scroll(0, offsetTop);

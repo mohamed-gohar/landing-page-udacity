@@ -106,7 +106,7 @@ function handleIntersect(entries) {
       addActive(element('.menu__link[href="#' + targetElement.id + '"]'));
 
       //change location hash
-      location.hash = `_${targetElement.id}`;
+      // location.hash = `.${targetElement.id}`;
     }
   });
 }
@@ -119,7 +119,7 @@ function smoothScroll(e) {
     // console.log(hash);
     const offsetTop = element(hash).offsetTop;
     // console.log(offsetTop);
-
+    location.hash = hash.toUpperCase();
     if (
       (window.MSInputMethodContext && document.documentMode) ||
       window.navigator.userAgent.indexOf("Edge") > -1
