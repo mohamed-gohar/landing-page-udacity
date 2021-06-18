@@ -12346,10 +12346,16 @@
 	}
 
 	function scrollTopClick() {
-	  scroll({
-	    top: 0,
-	    behavior: "smooth"
-	  });
+	  // scroll({
+	  //   top: 0,
+	  //   behavior: "smooth",
+	  // });
+	  var i = pageYOffset;
+	  var scrolltoo = setInterval(function () {
+	    if (i <= 100) clearInterval(scrolltoo);
+	    i -= 100;
+	    scrollTo(0, i);
+	  }, 0);
 	}
 	/**
 	 * End Main Functions
