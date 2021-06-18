@@ -106,7 +106,7 @@ function handleIntersect(entries) {
       addActive(element('.menu__link[href="#' + targetElement.id + '"]'));
 
       //change location hash
-      // location.hash = `.${targetElement.id}`;
+      location.hash = `_${targetElement.id}`;
     }
   });
 }
