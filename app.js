@@ -103,7 +103,7 @@ function handleIntersect(entries) {
 
       // active link
       removeActive(menuLink);
-      addActive(element('.menu__link[href="#' + targetElement.id + '"]'));
+      addActive(element(`.menu__link[href="#${targetElement.id}"]`));
 
       //change location hash
       // location.hash = `.${targetElement.id}`;
@@ -160,12 +160,22 @@ function scrollTopClick() {
   //   top: 0,
   //   behavior: "smooth",
   // });
-  let i = pageYOffset;
-  let scrolltoo = setInterval(() => {
-    if (i <= 100) clearInterval(scrolltoo);
-    i -= 100;
+  // let i = pageYOffset;
+  // let scrolltoo = setInterval(() => {
+  //   if (i <= 100) clearInterval(scrolltoo);
+  //   i -= 100;
+  //   scrollTo(0, i);
+  // }, 0);
+  let i = pageYOffset,
+    fun;
+  function smoothS() {
+    if (i < 0) return cancelAnimationFrame(fun);
+    i -= 220;
     scrollTo(0, i);
-  }, 0);
+    console.log(i);
+    fun = requestAnimationFrame(smoothS);
+  }
+  smoothS();
 }
 
 /**

@@ -12296,7 +12296,7 @@
 	      addActive(targetElement); // active link
 
 	      removeActive(menuLink);
-	      addActive(element('.menu__link[href="#' + targetElement.id + '"]')); //change location hash
+	      addActive(element(".menu__link[href=\"#".concat(targetElement.id, "\"]"))); //change location hash
 	      // location.hash = `.${targetElement.id}`;
 	    }
 	  });
@@ -12351,12 +12351,24 @@
 	  //   top: 0,
 	  //   behavior: "smooth",
 	  // });
-	  var i = pageYOffset;
-	  var scrolltoo = setInterval(function () {
-	    if (i <= 100) clearInterval(scrolltoo);
-	    i -= 100;
+	  // let i = pageYOffset;
+	  // let scrolltoo = setInterval(() => {
+	  //   if (i <= 100) clearInterval(scrolltoo);
+	  //   i -= 100;
+	  //   scrollTo(0, i);
+	  // }, 0);
+	  var i = pageYOffset,
+	      fun;
+
+	  function smoothS() {
+	    if (i < 0) return cancelAnimationFrame(fun);
+	    i -= 220;
 	    scrollTo(0, i);
-	  }, 0);
+	    console.log(i);
+	    fun = requestAnimationFrame(smoothS);
+	  }
+
+	  smoothS();
 	}
 	/**
 	 * End Main Functions
