@@ -12351,24 +12351,40 @@
 	  //   top: 0,
 	  //   behavior: "smooth",
 	  // });
+
+	  /**
+	   * smooth scroll with setinterval
+	   */
 	  // let i = pageYOffset;
 	  // let scrolltoo = setInterval(() => {
 	  //   if (i <= 100) clearInterval(scrolltoo);
 	  //   i -= 100;
 	  //   scrollTo(0, i);
 	  // }, 0);
-	  var i = pageYOffset,
-	      fun;
 
-	  function smoothS() {
-	    if (i < 0) return cancelAnimationFrame(fun);
-	    i -= 220;
+	  /**
+	   * smooth scroll with requestAnimationFrame
+	   * @param {number} timestamp - changed each call
+	   */
+	  var i = pageYOffset,
+	      start;
+
+	  function smoothS(timestamp) {
+	    if (i <= 0) return cancelAnimationFrame(start);
+
+	    if (!start) {
+	      start = timestamp;
+	    }
+
+	    var elapsed = (timestamp - start) / 300; //animation duration 300ms
+
+	    console.log(elapsed);
+	    i -= i * elapsed;
 	    scrollTo(0, i);
-	    console.log(i);
-	    fun = requestAnimationFrame(smoothS);
+	    requestAnimationFrame(smoothS);
 	  }
 
-	  smoothS();
+	  requestAnimationFrame(smoothS);
 	}
 	/**
 	 * End Main Functions
