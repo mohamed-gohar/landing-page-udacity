@@ -75,7 +75,6 @@ navbarList.appendChild(fragmentList);
 const menuLink = elements(".navbar__menu .menu__link");
 
 // Add class 'active' to section or link when near top of viewport
-
 landingContainer.forEach((sec) => {
   //loop of each section and apply IntersectionObserver
   createObserver(sec);
@@ -114,24 +113,27 @@ function handleIntersect(entries) {
 // Scroll to anchor ID using scrollTO event
 function smoothScroll(e) {
   e.preventDefault();
-  if (e.target.nodeName === "A") {
+  if (e.target.nodeName === "A" && !e.target.classList.contains("active")) {
     const hash = e.target.hash;
-    // console.log(hash);
-    const offsetTop = element(hash).offsetTop;
-    // console.log(offsetTop);
-    location.hash = hash.toUpperCase();
-    if (
-      (window.MSInputMethodContext && document.documentMode) ||
-      window.navigator.userAgent.indexOf("Edge") > -1
-    ) {
-      scroll(0, offsetTop);
-    } else {
-      scroll({
-        top: offsetTop,
-        left: 0,
-        behavior: "smooth",
-      });
-    }
+
+    location.hash = hash.slice(0, -1) + "-" + hash.slice(-1);
+
+    // const offsetTop = element(hash).offsetTop;
+
+    // if (
+    //   (window.MSInputMethodContext && document.documentMode) ||
+    //   window.navigator.userAgent.indexOf("Edge") > -1
+    // ) {
+    //   scroll(0, offsetTop);
+    // } else {
+    //   scroll({
+    //     top: offsetTop,
+    //     left: 0,
+    //     behavior: "smooth",
+    //   });
+    // }
+
+    goScroll(element(hash), 300);
   }
 }
 //navbar hide function
@@ -171,26 +173,51 @@ function scrollTopClick() {
   //   scrollTo(0, i);
   // }, 0);
 
+  goScroll(0, 300);
+}
+
+// goScroll function [to element or to top]
+function goScroll(element, timeout = 500) {
+  const startPos = window.pageYOffset || document.documentElement.scrollTop,
+    target = element ? element.getBoundingClientRect().top : 0;
+  let start = null,
+    pos = 0;
   /**
    * smooth scroll with requestAnimationFrame
    * @param {number} timestamp - changed each call
    */
-  let i = pageYOffset,
-    start;
-  function smoothS(timestamp) {
-    if (i <= 0) return cancelAnimationFrame(start);
+  function sAnimation(timestamp) {
     if (!start) {
       start = timestamp;
     }
-    let elapsed = (timestamp - start) / 300; //animation duration 300ms
-    console.log(elapsed);
-    i -= i * elapsed;
-    scrollTo(0, i);
-    requestAnimationFrame(smoothS);
-  }
-  requestAnimationFrame(smoothS);
-}
+    const elapsed = timestamp - start,
+      progress = elapsed / timeout;
 
+    //ease in function from https://github.com/component/ease/blob/master/index.js
+    const outQuad = function (n) {
+      return n * (2 - n);
+    };
+    let easeInPercentage = +outQuad(progress).toFixed(2);
+
+    pos =
+      target == 0
+        ? startPos - startPos * easeInPercentage
+        : startPos + target * easeInPercentage;
+    console.log(easeInPercentage, target, pos, startPos);
+    scrollTo(0, pos);
+
+    if (
+      (target !== 0 && pos == startPos + target) ||
+      (target == 0 && pos <= 0)
+    ) {
+      window.cancelAnimationFrame(start);
+      pos = 0;
+    } else {
+      window.requestAnimationFrame(sAnimation);
+    }
+  }
+  window.requestAnimationFrame(sAnimation);
+}
 /**
  * End Main Functions
  * Begin Events
