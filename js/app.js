@@ -12340,10 +12340,10 @@
 	hideHeader(); // scroll to top
 
 	function scrollTopToggle() {
-	  if (pageYOffset >= 250) {
-	    scrollToTop.style.cssText = "opacity: 1;visibility: visible;";
+	  if (pageYOffset <= 250) {
+	    scrollToTop.classList.add("hidden");
 	  } else {
-	    scrollToTop.style.cssText = "";
+	    scrollToTop.classList.remove("hidden");
 	  }
 	}
 
@@ -12383,18 +12383,20 @@
 	    }
 
 	    var elapsed = timestamp - start,
-	        progress = elapsed / timeout; //ease in function from https://github.com/component/ease/blob/master/index.js
+	        progress = elapsed / timeout; //timeout - animation time (ms)
+	    //ease in function from https://github.com/component/ease/blob/master/index.js
 
 	    var outQuad = function outQuad(n) {
 	      return n * (2 - n);
 	    };
 
-	    var easeInPercentage = +outQuad(progress).toFixed(2);
+	    var easeInPercentage = +outQuad(progress).toFixed(5);
+	    if (easeInPercentage > 0.98) easeInPercentage = 1;
 	    pos = target == 0 ? startPos - startPos * easeInPercentage : startPos + target * easeInPercentage;
 	    console.log(easeInPercentage, target, pos, startPos);
 	    scrollTo(0, pos);
 
-	    if (target !== 0 && pos == startPos + target || target == 0 && pos <= 0) {
+	    if (target !== 0 && pos == startPos + target || target == 0 && pos == 0) {
 	      window.cancelAnimationFrame(start);
 	      pos = 0;
 	    } else {

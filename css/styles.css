@@ -9,9 +9,6 @@
 */
 
 /* ---- Base Rules ---- */
-/* html {
-  scroll-behavior: smooth;
-} */
 body {
   background: rgb(136, 203, 171);
   background: linear-gradient(
@@ -122,21 +119,25 @@ section {
 
 /* scroll to top */
 .scroll-to-top {
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: fixed;
   right: 40px;
-  bottom: 40px;
+  bottom: 20px;
   background: #000;
   color: #fff;
   font-size: 30px;
-  width: 40px;
-  height: 40px;
-  text-align: center;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   cursor: pointer;
-  visibility: hidden;
+  opacity: 1;
+  transition: bottom 0.3s ease, opacity 0.3s ease;
+}
+.scroll-to-top.hidden {
+  bottom: -65px;
   opacity: 0;
-  transition: all 0.3s ease;
 }
 
 /* ---- Theme Rules ---- */
@@ -261,4 +262,19 @@ section.active .landing__container::after {
   to {
     transform: rotate(360deg) translate(-1em) rotate(-360deg);
   }
+}
+
+/* scroll bar */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 13, 60, 1);
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-track {
+  background: rgba(136, 203, 171, 0.5);
 }
