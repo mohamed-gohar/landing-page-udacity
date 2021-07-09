@@ -77,7 +77,22 @@ const menuLink = elements(".navbar__menu .menu__link");
 // Add class 'active' to section or link when near top of viewport
 landingContainer.forEach((sec) => {
   //loop of each section and apply IntersectionObserver
-  createObserver(sec);
+  // createObserver(sec);
+
+  // navbar list sby by getBoundingClientRect
+  window.addEventListener("scroll", function addAct() {
+    if (
+      innerHeight - sec.getBoundingClientRect().top + 1 >= innerHeight &&
+      innerHeight - sec.getBoundingClientRect().bottom + 1 <= innerHeight &&
+      !sec.classList.contains("active")
+    ) {
+      removeActive(landingContainer);
+      addActive(sec);
+
+      removeActive(menuLink);
+      addActive(element(`.menu__link[href="#${sec.id}"]`));
+    }
+  });
 });
 
 // intersection observer function
@@ -204,7 +219,7 @@ function goScroll(element, timeout = 500) {
       target == 0
         ? startPos - startPos * easeInPercentage
         : startPos + target * easeInPercentage;
-    console.log(easeInPercentage, target, pos, startPos);
+    // console.log(easeInPercentage, target, pos, startPos);
     scrollTo(0, pos);
 
     if (

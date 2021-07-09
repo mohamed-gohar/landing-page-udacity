@@ -12273,34 +12273,17 @@
 
 	landingContainer.forEach(function (sec) {
 	  //loop of each section and apply IntersectionObserver
-	  createObserver(sec);
-	}); // intersection observer function
-
-	function createObserver(ele) {
-	  var options = {
-	    root: null,
-	    rootMargin: "0px",
-	    threshold: [0.3]
-	  };
-	  var observer = new IntersectionObserver(handleIntersect, options);
-	  observer.observe(ele);
-	} //IntersectionObserver callback
-
-
-	function handleIntersect(entries) {
-	  entries.forEach(function (entry) {
-	    if (entry.intersectionRatio >= 0.3) {
-	      var targetElement = entry.target; // Set sections as active
-
+	  // createObserver(sec);
+	  // navbar list sby by getBoundingClientRect
+	  window.addEventListener("scroll", function addAct() {
+	    if (innerHeight - sec.getBoundingClientRect().top + 1 >= innerHeight && innerHeight - sec.getBoundingClientRect().bottom + 1 <= innerHeight && !sec.classList.contains("active")) {
 	      removeActive(landingContainer);
-	      addActive(targetElement); // active link
-
+	      addActive(sec);
 	      removeActive(menuLink);
-	      addActive(element(".menu__link[href=\"#".concat(targetElement.id, "\"]"))); //change location hash
-	      // location.hash = `.${targetElement.id}`;
+	      addActive(element(".menu__link[href=\"#".concat(sec.id, "\"]")));
 	    }
 	  });
-	} // Scroll to anchor ID using scrollTO event
+	}); // intersection observer function
 
 
 	function smoothScroll(e) {
@@ -12392,8 +12375,8 @@
 
 	    var easeInPercentage = +outQuad(progress).toFixed(5);
 	    if (easeInPercentage > 0.98) easeInPercentage = 1;
-	    pos = target == 0 ? startPos - startPos * easeInPercentage : startPos + target * easeInPercentage;
-	    console.log(easeInPercentage, target, pos, startPos);
+	    pos = target == 0 ? startPos - startPos * easeInPercentage : startPos + target * easeInPercentage; // console.log(easeInPercentage, target, pos, startPos);
+
 	    scrollTo(0, pos);
 
 	    if (target !== 0 && pos == startPos + target || target == 0 && pos == 0) {
